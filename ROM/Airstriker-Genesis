@@ -1,0 +1,51 @@
+#Installation done using Ubuntu 20.04
+
+#Check if Python is installed
+python3 --version
+
+#Install Python
+sudo apt-get update
+sudo apt-get install python3.8
+
+#Install lib32gcc1
+dpkg --add-architecture i386
+apt-get update
+apt-get install lib32gcc1
+
+#Install git
+apt install git
+
+#Download from retro
+git clone https://github.com/openai/retro.git gym-retro
+
+cd gym-retro/
+apt install python3-pip
+pip3 install -e .
+
+git submodule deinit -f --all
+rm -rf .git/modules
+git submodule update --init
+
+#Import Games from Steam
+
+cd /retro
+cd /scripts
+
+#User name / Password and Steam Guard Code
+python3 import_sega_classics.py
+
+#Interactive
+python3 -m retro.examples.interactive --game Airstriker-Genesis
+
+#Random Agent
+python3 -m retro.examples.random_agent --game Airstriker-Genesis
+
+#Brute
+python3 -m retro.examples.brute --game Airstriker-Genesis
+
+#PPO
+python3 -m retro.examples.ppo --game Airstriker-Genesis
+
+#For PPO - Need to install:
+#https://github.com/openai/baselines
+sudo apt-get update && sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev
